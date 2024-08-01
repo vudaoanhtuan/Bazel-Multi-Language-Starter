@@ -1,0 +1,7 @@
+# Configuring the version of the source code in repository
+# https://bazel.build/docs/bazel-and-java#config-source-code
+build --java_language_version=11
+
+# Setting hermetic testing and compilation for java apps
+# https://bazel.build/docs/bazel-and-java#hermetic-testing
+build --java_runtime_version=remotejdk_11
