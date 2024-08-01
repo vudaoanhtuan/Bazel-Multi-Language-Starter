@@ -1,0 +1,1 @@
+module(repo_name = "bazel_starter")
