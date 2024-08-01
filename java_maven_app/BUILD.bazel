@@ -1,5 +1,4 @@
 load("@rules_java//java:defs.bzl", "java_binary")
-load("@rules_jvm_external//:defs.bzl", "artifact")
 
 
 package(default_visibility = ["//visibility:public"])
@@ -9,6 +8,6 @@ java_binary(
     main_class = "com.example.AppWithDeps",
     srcs = glob(["src/main/java/com/example/*.java"]),
     deps = [
-        artifact("com.google.guava:guava"),
+        "@java_deps//:com_google_guava_guava"
     ]
 )
