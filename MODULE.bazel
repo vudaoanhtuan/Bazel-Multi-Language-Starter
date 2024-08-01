@@ -11,3 +11,20 @@ maven.install(
 )
 
 use_repo(maven, "java_deps")
+
+
+bazel_dep(name = "rules_python", version = "0.34.0")
+python = use_extension("@rules_python//python/extensions:python.bzl", "python")
+
+python.toolchain(python_version = "3.11", is_default = True)
+
+
+pip = use_extension("@rules_python//python/extensions:pip.bzl", "pip")
+
+pip.parse(
+    hub_name = "python_pip_deps",
+    python_version = "3.11",
+    requirements_lock = "//:python_deps/requirements.txt",
+)
+
+use_repo(pip, "python_pip_deps")
