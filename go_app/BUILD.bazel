@@ -1,0 +1,9 @@
+load("@rules_go//go:def.bzl", "go_binary")
+
+go_binary(
+    name = "go_app",
+    srcs = ["src/main.go"],
+    deps = [
+        "@io_rsc_quote//:go_default_library"
+    ]
+)
