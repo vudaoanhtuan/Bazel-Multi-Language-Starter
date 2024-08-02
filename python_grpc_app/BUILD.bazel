@@ -1,0 +1,26 @@
+load("@rules_proto_grpc_python//:defs.bzl", "python_grpc_library")
+load("@rules_python//python:defs.bzl", "py_binary")
+
+package(default_visibility = ["//visibility:public"])
+
+
+python_grpc_library(
+    name = "thing_python_grpc",
+    protos = ["//proto:thing_proto"],
+)
+
+python_grpc_library(
+    name = "greeter_python_grpc",
+    protos = ["//proto:greeter_grpc"],
+    deps = ["thing_python_grpc"],
+)
+
+py_binary(
+    name = "python_grpc_app",
+    main = "src/main.py",
+    srcs = ["src/main.py"],
+    deps = [
+        ":greeter_python_grpc"
+    ]
+)
+
