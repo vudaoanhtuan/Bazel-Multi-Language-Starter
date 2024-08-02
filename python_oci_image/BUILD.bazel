@@ -1,0 +1,29 @@
+load("@rules_python//python:defs.bzl", "py_binary")
+load("@python_pip_deps//:requirements.bzl", "requirement")
+load("@rules_oci//oci:defs.bzl", "oci_tarball")
+load("//:py_layer.bzl", "py_oci_image")
+
+
+py_binary(
+    name = "python_app",
+    main = "src/main.py",
+    srcs = ["src/main.py"],
+    deps = [
+        requirement("numpy")
+    ]
+)
+
+py_oci_image(
+    name = "python_oci_image_app",
+    base = "@python_11_base_image",
+    binary = ":python_app",
+    entrypoint = ["/python_oci_image/python_app"],
+)
+
+# $ bazel run //python_oci_image:tarball
+# $ docker run --rm example.com/python_oci_image_app:latest
+oci_tarball(
+    name = "tarball",
+    image = ":python_oci_image_app",
+    repo_tags = ["example.com/python_oci_image_app:latest"],
+)
