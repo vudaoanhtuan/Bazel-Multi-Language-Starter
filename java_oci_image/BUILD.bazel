@@ -1,0 +1,45 @@
+load("@aspect_bazel_lib//lib:tar.bzl", "tar")
+load("@rules_java//java:defs.bzl", "java_binary", "java_library")
+load("@rules_oci//oci:defs.bzl", "oci_image")
+load("@rules_oci//oci:defs.bzl", "oci_tarball")
+
+package(default_visibility = ["//visibility:public"])
+
+java_library(
+    name = "java_maven_lib",
+    srcs = glob(["src/main/java/com/example/image/*.java"]),
+    deps = [
+        "@java_deps//:com_google_guava_guava"
+    ],
+)
+
+java_binary(
+    name = "java_app",
+    main_class = "com.example.image.App",
+    runtime_deps = [
+        ":java_maven_lib"
+    ]
+)
+
+tar(
+    name = "java_app_layer",
+    srcs = ["java_app_deploy.jar"],
+)
+
+oci_image(
+    name = "java_oci_image",
+    base = "@distroless_java_image",
+    entrypoint = [
+        "java",
+        "-jar",
+        "/java_oci_image/java_app_deploy.jar",
+    ],
+    tars = [":java_app_layer"],
+)
+
+oci_tarball(
+    name = "tarball",
+    image = ":java_oci_image",
+    repo_tags = ["example.com/java_oci_image_app:latest"],
+)
+

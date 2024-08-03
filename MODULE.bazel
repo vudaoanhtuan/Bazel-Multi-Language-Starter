@@ -45,13 +45,17 @@ use_repo(
     "io_rsc_quote",
 )
 
-bazel_dep(name = "protobuf", version = "27.2")
+bazel_dep(name = "protobuf", version = "27.1")
+bazel_dep(name = "rules_proto", version = "6.0.2")
 bazel_dep(name = "rules_proto_grpc_java", version = "5.0.0")
 bazel_dep(name = "rules_proto_grpc_python", version = "5.0.0")
 
 
-bazel_dep(name = "rules_oci", version = "1.7.5")
+bazel_dep(name = "aspect_bazel_lib", version = "2.7.9")
+bazel_dep(name = "platforms", version = "0.0.10")
 
+
+bazel_dep(name = "rules_oci", version = "1.7.5")
 oci = use_extension("@rules_oci//oci:extensions.bzl", "oci")
 
 oci.pull(
@@ -64,6 +68,9 @@ oci.pull(
 )
 use_repo(oci, "python_11_base_image")
 
-
-bazel_dep(name = "aspect_bazel_lib", version = "2.7.9")
-bazel_dep(name = "platforms", version = "0.0.10")
+oci.pull(
+    name = "distroless_java_image",
+    digest = "sha256:161a1d97d592b3f1919801578c3a47c8e932071168a96267698f4b669c24c76d",
+    image = "gcr.io/distroless/java17",
+)
+use_repo(oci, "distroless_java_image")

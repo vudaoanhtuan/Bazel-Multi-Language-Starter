@@ -95,8 +95,8 @@
     "https://bcr.bazel.build/modules/protobuf/23.1/MODULE.bazel": "88b393b3eb4101d18129e5db51847cd40a5517a53e81216144a8c32dfeeca52a",
     "https://bcr.bazel.build/modules/protobuf/24.4/MODULE.bazel": "7bc7ce5f2abf36b3b7b7c8218d3acdebb9426aeb35c2257c96445756f970eb12",
     "https://bcr.bazel.build/modules/protobuf/26.0.bcr.2/MODULE.bazel": "62e0b84ca727bdeb55a6fe1ef180e6b191bbe548a58305ea1426c158067be534",
-    "https://bcr.bazel.build/modules/protobuf/27.2/MODULE.bazel": "32450b50673882e4c8c3d10a83f3bc82161b213ed2f80d17e38bece8f165c295",
-    "https://bcr.bazel.build/modules/protobuf/27.2/source.json": "37722548d44c5f3e81dc6a3d1dfb49868aee80cc63db90d843fcefbe3fd220af",
+    "https://bcr.bazel.build/modules/protobuf/27.1/MODULE.bazel": "703a7b614728bb06647f965264967a8ef1c39e09e8f167b3ca0bb1fd80449c0d",
+    "https://bcr.bazel.build/modules/protobuf/27.1/source.json": "11a2567425ffebb89ff59e94fc8a55bc78a418d52a4cc415069ce7c793571352",
     "https://bcr.bazel.build/modules/protobuf/3.19.0/MODULE.bazel": "6b5fbb433f760a99a22b18b6850ed5784ef0e9928a72668b66e4d7ccd47db9b0",
     "https://bcr.bazel.build/modules/protobuf/3.19.2/MODULE.bazel": "532ffe5f2186b69fdde039efe6df13ba726ff338c6bc82275ad433013fa10573",
     "https://bcr.bazel.build/modules/protobuf/3.19.6/MODULE.bazel": "9233edc5e1f2ee276a60de3eaa47ac4132302ef9643238f23128fea53ea12858",
@@ -1121,7 +1121,7 @@
     "@@rules_oci~//oci:extensions.bzl%oci": {
       "general": {
         "bzlTransitiveDigest": "mOhOVjTjRgaN1ifrutyv4CdDUXZ06CskMJXYYLcYqYk=",
-        "usagesDigest": "xArAAVmpN/jztQ1uPc1uZBY0FbQ5EbAucdK7ZlFBvdo=",
+        "usagesDigest": "U+OGWFEosqp7elint85nSgyfhG5nbj+Xf3yucOxTRWc=",
         "recordedFileInputs": {},
         "recordedDirentsInputs": {},
         "envVariables": {},
@@ -1263,6 +1263,21 @@
               "crane_version": "v0.18.0"
             }
           },
+          "distroless_java_image": {
+            "bzlFile": "@@rules_oci~//oci/private:pull.bzl",
+            "ruleClassName": "oci_alias",
+            "attributes": {
+              "target_name": "distroless_java_image",
+              "scheme": "https",
+              "registry": "gcr.io",
+              "repository": "distroless/java17",
+              "identifier": "sha256:161a1d97d592b3f1919801578c3a47c8e932071168a96267698f4b669c24c76d",
+              "platforms": {},
+              "platform": "@@rules_oci~//oci:distroless_java_image_single",
+              "bzlmod_repository": "distroless_java_image",
+              "reproducible": true
+            }
+          },
           "coreutils_darwin_amd64": {
             "bzlFile": "@@aspect_bazel_lib~//lib/private:coreutils_toolchain.bzl",
             "ruleClassName": "coreutils_platform_repo",
@@ -1341,6 +1356,17 @@
             "attributes": {
               "platform": "linux_i386",
               "crane_version": "v0.18.0"
+            }
+          },
+          "distroless_java_image_single": {
+            "bzlFile": "@@rules_oci~//oci/private:pull.bzl",
+            "ruleClassName": "oci_pull",
+            "attributes": {
+              "scheme": "https",
+              "registry": "gcr.io",
+              "repository": "distroless/java17",
+              "identifier": "sha256:161a1d97d592b3f1919801578c3a47c8e932071168a96267698f4b669c24c76d",
+              "target_name": "distroless_java_image_single"
             }
           },
           "jq_linux_amd64": {
