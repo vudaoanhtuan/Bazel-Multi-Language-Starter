@@ -8,6 +8,7 @@ maven.install(
     name = "java_deps",
     artifacts = [
         "org.apache.commons:commons-lang3:jar:3.12.0",
+        "com.google.api.grpc:proto-google-common-protos:jar:2.49.0",
     ],
     lock_file = "//:java_deps/maven_install.json",
 )
@@ -95,3 +96,5 @@ oci.pull(
     image = "gcr.io/distroless/java17",
 )
 use_repo(oci, "distroless_java_image")
+
+bazel_dep(name = "googleapis", version = "0.0.0-20240819-fe8ba054a")

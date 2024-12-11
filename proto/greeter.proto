@@ -9,13 +9,18 @@ option go_package = "github.com/rules-proto-grpc/rules_proto_grpc/examples/proto
 package greeter;
 
 import "google/protobuf/any.proto";
+import "google/api/annotations.proto";
 import "proto/thing.proto";
 
 
 // The greeting service definition.
 service Greeter {
   // Sends a greeting
-  rpc SayHello (HelloRequest) returns (HelloReply) {}
+  rpc SayHello (HelloRequest) returns (HelloReply) {
+    option (google.api.http) = {
+      get: "/v1/cameras/{camera_id}/sectionversions"
+    };
+  }
 }
 
 // The request message containing the user's name.

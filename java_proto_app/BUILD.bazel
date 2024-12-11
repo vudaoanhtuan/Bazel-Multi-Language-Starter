@@ -12,7 +12,10 @@ java_grpc_library(
 java_grpc_library(
     name = "greeter_java_grpc",
     protos = ["//proto:greeter_grpc"],
-    deps = ["thing_java_grpc"],
+    deps = [
+        "thing_java_grpc",
+        "@@rules_jvm_external~~maven~maven//:com_google_api_grpc_proto_google_common_protos"
+    ],
 )
 
 java_binary(
