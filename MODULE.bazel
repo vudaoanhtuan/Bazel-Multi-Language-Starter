@@ -1,5 +1,7 @@
 module(repo_name = "bazel_starter")
 
+bazel_dep(name = "rules_java", version = "8.6.2")
+
 bazel_dep(name = "rules_jvm_external", version = "6.2")
 maven = use_extension("@rules_jvm_external//:extensions.bzl", "maven")
 maven.install(
@@ -45,10 +47,29 @@ use_repo(
     "io_rsc_quote",
 )
 
-bazel_dep(name = "protobuf", version = "27.1")
-bazel_dep(name = "rules_proto", version = "6.0.2")
-bazel_dep(name = "rules_proto_grpc_java", version = "5.0.0")
-bazel_dep(name = "rules_proto_grpc_python", version = "5.0.0")
+bazel_dep(name = "protobuf", version = "29.1")
+
+single_version_override(
+    module_name = "grpc-java",
+    version = "1.64.0",
+)
+
+bazel_dep(name = "toolchains_protoc", version = "0.3.6")
+# Optional: choose a version of protoc rather than the latest.
+protoc = use_extension("@toolchains_protoc//protoc:extensions.bzl", "protoc")
+protoc.toolchain(
+    # Creates a repository to satisfy well-known-types dependencies such as
+    # deps=["@com_google_protobuf//:any_proto"]
+    google_protobuf = "com_google_protobuf",
+    # Pin to any version of protoc
+    version = "v26.0",
+)
+use_repo(protoc, "com_google_protobuf", "toolchains_protoc_hub")
+
+
+bazel_dep(name = "rules_proto", version = "7.0.2")
+bazel_dep(name = "rules_proto_grpc_java", version = "5.0.1")
+bazel_dep(name = "rules_proto_grpc_python", version = "5.0.1")
 
 
 bazel_dep(name = "aspect_bazel_lib", version = "2.7.9")
