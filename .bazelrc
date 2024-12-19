@@ -1,9 +1,33 @@
-# Configuring the version of the source code in repository
-# https://bazel.build/docs/bazel-and-java#config-source-code
-build --java_language_version=11
-
-# Setting hermetic testing and compilation for java apps
-# https://bazel.build/docs/bazel-and-java#hermetic-testing
-build --java_runtime_version=remotejdk_11
-
 build --incompatible_strict_action_env
+test --incompatible_strict_action_env
+
+
+## Build
+build --experimental_strict_java_deps=warn
+build --javacopt="-XepDisableAllChecks"
+build --java_runtime_version=remotejdk_17
+build --java_language_version=17
+build --tool_java_runtime_version=remotejdk_17
+build --tool_java_language_version=17
+build --sandbox_tmpfs_path=/tmp
+
+## Test
+test --experimental_strict_java_deps=warn
+test --javacopt="-XepDisableAllChecks"
+test --java_runtime_version=remotejdk_17
+test --java_language_version=17
+test --tool_java_runtime_version=remotejdk_17
+test --tool_java_language_version=17
+test --sandbox_tmpfs_path=/tmp
+
+## Coverage
+coverage --experimental_strict_java_deps=warn
+coverage --javacopt="-XepDisableAllChecks"
+coverage --java_runtime_version=remotejdk_17
+coverage --java_language_version=17
+coverage --tool_java_runtime_version=remotejdk_17
+coverage --tool_java_language_version=17
+coverage --sandbox_tmpfs_path=/tmp
+
+# build --action_env CC=/usr/local/opt/llvm@12/bin/clang --action_env CXX=/usr/local/opt/llvm@12/bin/clang
+# test --action_env CC=/usr/local/opt/llvm@12/bin/clang --action_env CXX=/usr/local/opt/llvm@12/bin/clang

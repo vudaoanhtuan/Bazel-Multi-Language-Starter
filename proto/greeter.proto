@@ -4,10 +4,11 @@ option java_multiple_files = true;
 option java_package = "io.grpc.examples.Greeter";
 option java_outer_classname = "GreeterProto";
 option objc_class_prefix = "GTR";
-option go_package = "github.com/rules-proto-grpc/rules_proto_grpc/examples/proto";
+option go_package = "examples.com/proto";
 
-package greeter;
+package examples.proto;
 
+import "google/protobuf/descriptor.proto";
 import "google/protobuf/any.proto";
 import "google/api/annotations.proto";
 import "proto/thing.proto";

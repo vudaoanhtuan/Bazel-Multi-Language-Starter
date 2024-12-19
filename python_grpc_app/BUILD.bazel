@@ -11,7 +11,7 @@ python_grpc_library(
 
 python_grpc_library(
     name = "greeter_python_grpc",
-    protos = ["//proto:greeter_grpc"],
+    protos = ["//proto:greeter_proto"],
     deps = ["thing_python_grpc"],
 )
 

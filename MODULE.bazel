@@ -1,43 +1,46 @@
 module(repo_name = "bazel_starter")
 
-bazel_dep(name = "rules_java", version = "8.6.2")
+bazel_dep(name = "rules_java", version = "5.3.5")
+bazel_dep(name = "rules_jvm_external", version = "6.6")
 
-bazel_dep(name = "rules_jvm_external", version = "6.2")
 maven = use_extension("@rules_jvm_external//:extensions.bzl", "maven")
 maven.install(
     name = "java_deps",
     artifacts = [
         "org.apache.commons:commons-lang3:jar:3.12.0",
         "com.google.api.grpc:proto-google-common-protos:jar:2.49.0",
+        "org.apache.parquet:parquet-common:jar:1.13.1",
+        "org.apache.parquet:parquet-hadoop:jar:1.13.1",
+        "org.apache.parquet:parquet-protobuf:jar:1.13.1",
+        "org.apache.hadoop:hadoop-common:jar:3.3.5",
+        "org.apache.hadoop:hadoop-mapreduce-client-core:jar:3.3.5",
+        "com.google.protobuf:protobuf-java:jar:3.19.2",
     ],
     lock_file = "//:java_deps/maven_install.json",
 )
-
 use_repo(maven, "java_deps")
 
-
 bazel_dep(name = "rules_python", version = "0.34.0")
+
 python = use_extension("@rules_python//python/extensions:python.bzl", "python")
-
-python.toolchain(python_version = "3.11", is_default = True)
-
+python.toolchain(
+    is_default = True,
+    python_version = "3.11",
+)
 
 pip = use_extension("@rules_python//python/extensions:pip.bzl", "pip")
-
 pip.parse(
     hub_name = "python_pip_deps",
     python_version = "3.11",
     requirements_lock = "//:python_deps/requirements.txt",
 )
-
 use_repo(pip, "python_pip_deps")
-
 
 bazel_dep(name = "rules_go", version = "0.49.0")
 bazel_dep(name = "gazelle", version = "0.37.0")
 
 go_sdk = use_extension("@rules_go//go:extensions.bzl", "go_sdk")
-go_sdk.download(version = "1.21.8")
+go_sdk.download(version = "1.23.1")
 
 go_deps = use_extension("@gazelle//:extensions.bzl", "go_deps")
 go_deps.from_file(go_mod = "//:go.mod")
@@ -45,17 +48,33 @@ go_deps.from_file(go_mod = "//:go.mod")
 # All *direct* Go dependencies of the module have to be listed explicitly.
 use_repo(
     go_deps,
-    "io_rsc_quote",
+    "com_github_golang_glog",
+    "com_github_golang_protobuf",
+    "com_github_googleapis_googleapis",
+    "com_github_grpc_ecosystem_grpc_gateway_v2",
+    "org_golang_google_grpc",
+    "org_golang_google_protobuf",
 )
 
-bazel_dep(name = "protobuf", version = "29.1")
+bazel_dep(name = "grpc", version = "1.56.3")
+single_version_override(
+    module_name = "grpc",
+    version = "1.56.3",
+)
 
 single_version_override(
     module_name = "grpc-java",
-    version = "1.64.0",
+    version = "1.67.1",
+)
+
+bazel_dep(name = "protobuf", version = "24.4")
+single_version_override(
+    module_name = "protobuf",
+    version = "24.4",
 )
 
 bazel_dep(name = "toolchains_protoc", version = "0.3.6")
+
 # Optional: choose a version of protoc rather than the latest.
 protoc = use_extension("@toolchains_protoc//protoc:extensions.bzl", "protoc")
 protoc.toolchain(
@@ -63,23 +82,23 @@ protoc.toolchain(
     # deps=["@com_google_protobuf//:any_proto"]
     google_protobuf = "com_google_protobuf",
     # Pin to any version of protoc
-    version = "v26.0",
+    version = "v24.4",
 )
 use_repo(protoc, "com_google_protobuf", "toolchains_protoc_hub")
 
+#bazel_dep(name = "rules_proto", version = "7.0.2")
 
-bazel_dep(name = "rules_proto", version = "7.0.2")
+bazel_dep(name = "rules_proto", version = "5.3.0-21.7")
+
+
 bazel_dep(name = "rules_proto_grpc_java", version = "5.0.1")
 bazel_dep(name = "rules_proto_grpc_python", version = "5.0.1")
-
-
+bazel_dep(name = "rules_proto_grpc_go", version = "5.0.1")
 bazel_dep(name = "aspect_bazel_lib", version = "2.7.9")
 bazel_dep(name = "platforms", version = "0.0.10")
-
-
 bazel_dep(name = "rules_oci", version = "1.7.5")
-oci = use_extension("@rules_oci//oci:extensions.bzl", "oci")
 
+oci = use_extension("@rules_oci//oci:extensions.bzl", "oci")
 oci.pull(
     name = "python_11_base_image",
     image = "docker.io/library/python:3.11.9-slim",
@@ -89,7 +108,6 @@ oci.pull(
     ],
 )
 use_repo(oci, "python_11_base_image")
-
 oci.pull(
     name = "distroless_java_image",
     digest = "sha256:161a1d97d592b3f1919801578c3a47c8e932071168a96267698f4b669c24c76d",
@@ -98,3 +116,11 @@ oci.pull(
 use_repo(oci, "distroless_java_image")
 
 bazel_dep(name = "googleapis", version = "0.0.0-20240819-fe8ba054a")
+switched_rules = use_extension("@googleapis//:extensions.bzl", "switched_rules")
+switched_rules.use_languages(
+    cc = True,
+    go = True,
+    grpc = True,
+    java = True,
+    python = True,
+)

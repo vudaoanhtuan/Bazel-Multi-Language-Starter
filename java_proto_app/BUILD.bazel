@@ -1,8 +1,7 @@
-load("@rules_proto_grpc_java//:defs.bzl", "java_grpc_library")
 load("@rules_java//java:defs.bzl", "java_binary")
+load("@rules_proto_grpc_java//:defs.bzl", "java_grpc_library")
 
 package(default_visibility = ["//visibility:public"])
-
 
 java_grpc_library(
     name = "thing_java_grpc",
@@ -11,18 +10,23 @@ java_grpc_library(
 
 java_grpc_library(
     name = "greeter_java_grpc",
-    protos = ["//proto:greeter_grpc"],
+    protos = ["//proto:greeter_proto"],
     deps = [
         "thing_java_grpc",
-        "@@rules_jvm_external~~maven~maven//:com_google_api_grpc_proto_google_common_protos"
+        "@@rules_jvm_external~~maven~maven//:com_google_api_grpc_proto_google_common_protos",
     ],
 )
 
 java_binary(
     name = "java_app_with_grpc_binary",
-    main_class = "com.example.proto.Greeter",
     srcs = glob(["src/main/java/com/example/proto/*.java"]),
+    main_class = "com.example.proto.Greeter",
     deps = [
-        ":greeter_java_grpc"
-    ]
+        ":greeter_java_grpc",
+        "@java_deps//:org_apache_parquet_parquet_common",
+        "@java_deps//:org_apache_parquet_parquet_hadoop",
+        "@java_deps//:org_apache_parquet_parquet_protobuf",
+        "@java_deps//:org_apache_hadoop_hadoop_common",
+        "@java_deps//:org_apache_hadoop_hadoop_mapreduce_client_core",
+    ],
 )

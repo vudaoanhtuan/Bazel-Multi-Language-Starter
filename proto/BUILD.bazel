@@ -10,7 +10,7 @@ proto_library(
 )
 
 proto_library(
-    name = "greeter_grpc",
+    name = "greeter_proto",
     srcs = [
         "greeter.proto",
     ],
@@ -18,6 +18,12 @@ proto_library(
     deps = [
         ":thing_proto",  # Non well-known
         "@protobuf//:any_proto",  # Well-known
+        "@protobuf//:descriptor_proto",  # Well-known
         "@googleapis//google/api:annotations_proto",
     ],
+    exports = [
+        ":thing_proto",  # Non well-known
+        "@protobuf//:any_proto",  # Well-known
+        "@googleapis//google/api:annotations_proto",
+    ]
 )
