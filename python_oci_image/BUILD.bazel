@@ -1,6 +1,6 @@
 load("@rules_python//python:defs.bzl", "py_binary")
 load("@python_pip_deps//:requirements.bzl", "requirement")
-load("@rules_oci//oci:defs.bzl", "oci_tarball")
+load("@rules_oci//oci:defs.bzl", "oci_load", "oci_push", "oci_push")
 load("//:py_layer.bzl", "py_oci_image")
 
 
@@ -22,7 +22,7 @@ py_oci_image(
 
 # $ bazel run //python_oci_image:tarball
 # $ docker run --rm example.com/python_oci_image_app:latest
-oci_tarball(
+oci_load(
     name = "tarball",
     image = ":python_oci_image_app",
     repo_tags = ["example.com/python_oci_image_app:latest"],

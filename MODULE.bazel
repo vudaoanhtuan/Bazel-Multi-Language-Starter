@@ -20,7 +20,7 @@ maven.install(
 )
 use_repo(maven, "java_deps")
 
-bazel_dep(name = "rules_python", version = "0.34.0")
+bazel_dep(name = "rules_python", version = "0.35.0")
 
 python = use_extension("@rules_python//python/extensions:python.bzl", "python")
 python.toolchain(
@@ -88,7 +88,7 @@ use_repo(protoc, "com_google_protobuf", "toolchains_protoc_hub")
 
 #bazel_dep(name = "rules_proto", version = "7.0.2")
 
-bazel_dep(name = "rules_proto", version = "5.3.0-21.7")
+bazel_dep(name = "rules_proto", version = "6.0.2")
 
 
 bazel_dep(name = "rules_proto_grpc_java", version = "5.0.1")
@@ -96,7 +96,7 @@ bazel_dep(name = "rules_proto_grpc_python", version = "5.0.1")
 bazel_dep(name = "rules_proto_grpc_go", version = "5.0.1")
 bazel_dep(name = "aspect_bazel_lib", version = "2.7.9")
 bazel_dep(name = "platforms", version = "0.0.10")
-bazel_dep(name = "rules_oci", version = "1.7.5")
+bazel_dep(name = "rules_oci", version = "2.2.0")
 
 oci = use_extension("@rules_oci//oci:extensions.bzl", "oci")
 oci.pull(

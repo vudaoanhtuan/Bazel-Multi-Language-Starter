@@ -1,7 +1,6 @@
 load("@aspect_bazel_lib//lib:tar.bzl", "tar")
 load("@rules_java//java:defs.bzl", "java_binary", "java_library")
-load("@rules_oci//oci:defs.bzl", "oci_image")
-load("@rules_oci//oci:defs.bzl", "oci_tarball")
+load("@rules_oci//oci:defs.bzl", "oci_image", "oci_load")
 
 package(default_visibility = ["//visibility:public"])
 
@@ -37,7 +36,7 @@ oci_image(
     tars = [":java_app_layer"],
 )
 
-oci_tarball(
+oci_load(
     name = "tarball",
     image = ":java_oci_image",
     repo_tags = ["example.com/java_oci_image_app:latest"],
